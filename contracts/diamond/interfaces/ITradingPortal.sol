@@ -12,9 +12,9 @@ interface ITradingPortal is ITrading, IBook {
     event UpdateTradeSl(address indexed user, bytes32 indexed tradeHash, uint256 oldSl, uint256 sl);
     event UpdateMargin(address indexed user, bytes32 indexed tradeHash, uint256 beforeMargin, uint256 margin);
 
-    function openMarketTrade(OpenDataInput memory openData) external;
+    function openMarketTrade(OpenDataInput memory openData) external returns(bytes32 tradeHash);
 
-    function openMarketTradeBNB(OpenDataInput memory openData) external payable;
+    function openMarketTradeBNB(OpenDataInput memory openData) external payable returns(bytes32 tradeHash);
 
     function updateTradeTp(bytes32 tradeHash, uint64 takeProfit) external;
 
@@ -27,6 +27,8 @@ interface ITradingPortal is ITrading, IBook {
     function settleLpFundingFee(uint256 lpReceiveFundingFeeUsd) external;
 
     function closeTrade(bytes32 tradeHash) external;
+
+    function batchCloseTrade(bytes32[] calldata tradeHashes) external;
 
     function addMargin(bytes32 tradeHash, uint96 amount) external payable;
 }
